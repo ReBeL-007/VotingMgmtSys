@@ -28,7 +28,7 @@
         text-align: center; /* center align it with the container */
       }
       .container {
-        width: 820px; /* downsize our container to make the content feel a bit tighter and more cohesive. NOTE: this removes two full columns from the grid, meaning you only go to 14 columns and not 16. */
+        width: 620px; /* downsize our container to make the content feel a bit tighter and more cohesive. NOTE: this removes two full columns from the grid, meaning you only go to 14 columns and not 16. */
       }
       /* The white background content wrapper */
       .content {
@@ -75,8 +75,9 @@
         <div class="row">
           <div class="span14">
             @foreach ($organizations as $organization)
-            
-            <button style="font-size: 60px; margin: 5px; background-color: gray; border:none" onclick="castVote({{$organization->id}});"> {{$organization->name}} </button><br>
+            <label class="labelHover answer" style="width:600px; border:1px solid #ddd; color:rgb(68, 68, 68); border-radius:4px; cursor:pointer;"> 
+              <div style="font-size: 20px; font-weight:500; margin: 5px; padding:15px;" onclick="castVote({{$organization->id}});"> {{$organization->name}} </div>
+            </label>
             @endforeach
           </div>
         </div>
@@ -90,10 +91,10 @@
 
 <script>
 $(document).ready(function(){
-  $("button").hover(function(){
-    $(this).css("background-color", "green");
+  $(".answer").hover(function(){
+    $(this).css("background-color", "#ddd");
     }, function(){
-    $(this).css("background-color", "gray");
+    $(this).css("background-color", "#fff");
   });
 });
 

@@ -27,29 +27,38 @@
         </li>
         
         
-        <li class="nav-item">
+        {{-- <li class="nav-item">
           <a href="{{route('organization.index')}}" class="nav-link">
             <i class="nav-icon far fa-building"></i>
             <p>
               Manage Organization
             </p>
           </a>
-        </li>
+        </li> --}}
 
-        <li class="nav-item">
+        {{-- <li class="nav-item">
           <a href="{{route('position.index')}}" class="nav-link">
             <i class="nav-icon far fa-image"></i>
             <p>
               Manage Position
             </p>
           </a>
-        </li>
+        </li> --}}
 
         <li class="nav-item">
           <a href="{{route('candidate.index')}}" class="nav-link">
             <i class="nav-icon far fa-user"></i>
             <p>
               Manage Candidate
+            </p>
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a href="{{route('voterslist.index')}}" class="nav-link">
+            <i class="nav-icon far fa-image"></i>
+            <p>
+              Manage Voters List
             </p>
           </a>
         </li>

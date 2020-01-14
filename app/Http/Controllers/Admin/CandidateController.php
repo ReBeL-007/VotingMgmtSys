@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Model\Voting\Candidate;
-use App\Model\Voting\Position;
+// use App\Model\Voting\Position;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Session;
@@ -12,11 +12,11 @@ class CandidateController extends Controller
 {
     public $model;
         
-    public function __construct(Candidate $model, Position $position)
+    public function __construct(Candidate $model)
     {
 
         $this->model = $model;
-        $this->position = $position;
+        // $this->position = $position;
     }
 
     /**
@@ -27,10 +27,10 @@ class CandidateController extends Controller
     public function index()
     {
         // dd('sd');
-        $data = $this->model->with('positions')->paginate(10);
-        $positions = $this->position->pluck('name','id');
+        $data = $this->model->paginate(10);
+        // $positions = $this->position->pluck('name','id');
         // dd($data->all());
-        return view('backend.candidate.index', compact('data','positions'));
+        return view('backend.candidate.index', compact('data'));
     }
 
     /**
@@ -54,14 +54,35 @@ class CandidateController extends Controller
         //
         // dd($request->all());
         $this->validate($request,[
-            'name' => 'required|unique:candidates',
-            'position_id' => 'required',
+            'name' => 'required',
+            'membership_no' => 'required|unique:candidates',
+            'type' => 'required',
+            // 'image' => 'required',
         ]);
 
+        if($request->hasFile('image')){
+                $file = $request->file('image');
+                $file_name= uniqid().'_'.$file->getClientOriginalName();
+                // $imageName= $request->image->store('public/image');
+                $file->move(public_path().'/images/candidates/', $file_name);
+                // $image->move(public_path().'/images/', $name); 
+                // $request->request->add(['image'=>$file_name]) ;
+                $image = $file_name;
+                // dd($request->all());
+        }
+        else{
+            $image = null;
+        }
+        // $request->request->add(['name' => $request->name]) ;
+        // $request->request->add(['membership_no' => $request->membership_no]) ;
+        // $request->request->add(['type' => $request->type]) ;
         $data = [
                     'name' => $request->name,
-                    'position_id' => $request->position_id,
+                    'membership_no' => $request->membership_no,
+                    'type' => $request->type,
+                    'image' => $image,
                 ];
+                // dd($data);
         $latest=$this->model->create($data);
 
         Session::flash('flash_success', 'candidate created successfully!.');
@@ -91,9 +112,9 @@ class CandidateController extends Controller
         //
         $model = $this->model->find($candidate->id);
         $data = $this->model->paginate(10);
-        $positions = $this->position->pluck('name','id');
+        // $positions = $this->position->pluck('name','id');
             
-        return view('backend.candidate.index',compact('model','data','positions'));
+        return view('backend.candidate.index',compact('model','data'));
     
     }
 
@@ -110,10 +131,16 @@ class CandidateController extends Controller
         // dd($request->all());
         $this->validate($request,[
             'name' => 'required',
+            'membership_no' => 'required',
+            'type' => 'required',
+            // 'img' => 'required',
         ]);
 
         $data = [
                     'name' => $request->name,
+                    'membership_no' => $request->membership_no,
+                    'type' => $request->type,
+                    // 'img' => $request->img,
                 ];
 
         $this->model->find($candidate->id)->update($data);

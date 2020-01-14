@@ -34,6 +34,7 @@
       .content {
         background-color: #fff;
         padding: 20px;
+        /* min-height: 5000px; */
         margin: 0 -20px; /* negative indent the amount of the padding to maintain the grid system */
         -webkit-border-radius: 0 0 6px 6px;
            -moz-border-radius: 0 0 6px 6px;
@@ -41,6 +42,9 @@
         -webkit-box-shadow: 0 1px 2px rgba(0,0,0,.15);
            -moz-box-shadow: 0 1px 2px rgba(0,0,0,.15);
                 box-shadow: 0 1px 2px rgba(0,0,0,.15);
+        -webkit-min-height: 500px;
+            -moz-min-height: 500px;
+                min-height: 500px;
       }
       /* Page header tweaks */
       .page-header {
@@ -51,7 +55,7 @@
       /* Styles you shouldn't keep as they are for displaying this base example only */
       .content .span10,
       .content .span4 {
-        min-height: 500px;
+        min-height: 300px;
       }
       /* Give a quick and non-cross-browser friendly divider */
       .content .span4 {
@@ -67,23 +71,75 @@
 
   <body>
     <div class="container">
-
-      <div class="content">
-        <div class="page-header">
-          <h1>Who are you voting for..?</h1>
-        </div>
-        <div class="row">
-          <div class="span14">
-            @foreach ($organizations as $organization)
-            <label class="labelHover answer" style="width:600px; border:1px solid #ddd; color:rgb(68, 68, 68); border-radius:4px; cursor:pointer;"> 
-              <div style="font-size: 20px; font-weight:500; margin: 5px; padding:15px;" onclick="castVote({{$organization->id}});"> {{$organization->name}} </div>
-            </label>
-            @endforeach
-          </div>
-        </div>
+      <div class="row">
+        
+        <h1 style="color:#1e73be;">Management Association of Nepal</h1>
       </div>
-
       
+      @if(isset ($institutional_candidates))
+      <div class="content">
+        <form class="form-horizontal" action="individual/vote">
+          <input type="hidden" name="type" value="institutional">
+
+        <div class="page-header">
+          <div class="row">
+          <h3 style="font-family:open sans"><b>Institutional Candidates</b></h3>
+        </div>
+        </div>
+        <div class="form-group">
+          <div class="span10 ">
+            @foreach ($institutional_candidates as $candidate)
+              <label class="labelHover answer" style="width:600px; border:1px solid #ddd; color:rgb(68, 68, 68); border-radius:4px; cursor:pointer; font-size: 25px; font-weight:400; margin: 5px;"> 
+                <div class="icheck-success inline">
+                  <input type="checkbox" name="membership_no" value="{{$candidate->membership_no}}" id="checkboxSuccess3">
+                  <label for="checkboxSuccess3">
+                  </label>
+                  {{$candidate->name}}
+                </div>
+              </label>
+            @endforeach
+            </div>
+        </div>
+        <div class="clear"></div>
+        
+        <button type="submit" class="btn btn-block btn-success">Ok</button>
+        </form>
+      </div>
+      @endif
+      
+      @if(isset ($individual_candidates))
+      <div class="content">
+        <form class="form-horizontal" action="{{ route('user.castIndividualVote')}}" method="post">
+          {{ csrf_field() }}
+
+          <input type="hidden" name="type" value="individual">
+          <input type="hidden" name="voter_id" value="{{$voter_id}}">
+
+        <div class="page-header">
+          <div class="row">
+          <h3 style="font-family:open sans"><b>Individual Candidates</b></h3>
+        </div>
+        </div>
+        <div class="form-group">
+          <div class="span10 ">
+            @foreach ($individual_candidates as $candidate)
+              <label class="labelHover answer" style="width:600px; border:1px solid #ddd; color:rgb(68, 68, 68); border-radius:4px; cursor:pointer; font-size: 25px; font-weight:400; margin: 5px;"> 
+                <div class="icheck-success inline">
+                  <input type="checkbox" name="membership_no[]" value="{{$candidate->membership_no}}" id="checkboxSuccess3">
+                  <label for="checkboxSuccess3">
+                  </label>
+                  {{$candidate->name}}
+                </div>
+              </label>
+            @endforeach
+            </div>
+        </div>
+        <div class="clear"></div>
+        
+        <button type="submit" class="btn btn-block btn-success">Ok</button>
+        </form>
+      </div>
+      @endif
     </div> <!-- /container -->
 
   </body>
@@ -98,24 +154,25 @@ $(document).ready(function(){
   });
 });
 
-function castVote(id){
-  // console.log(vote);
-  // var id = vote;
-  $.ajax({
-          url: 'org/vote/' + id,
-          type: 'GET',
+// function castVote(id){
+//   // console.log(vote);
+//   // var id = vote;
+//   $.ajax({
+//           url: 'org/vote/' + id,
+//           type: 'GET',
 
-          beforeSend: function (request) {
-              return request.setRequestHeader('X-CSRF-Token', $("meta[name='csrf-token']").attr('content'));
-          },
-          success: function (response) {
-              console.log(response);
-              // location.reload();  
-              alert('Voting Successful');
+//           beforeSend: function (request) {
+//               return request.setRequestHeader('X-CSRF-Token', $("meta[name='csrf-token']").attr('content'));
+//           },
+//           success: function (response) {
+//               console.log(response);
+//               // location.reload();  
+//               alert('Voting Successful');
 
-          }
-      });
+//           }
+//       });
 
-}
+// }
 </script>
 </html>
+

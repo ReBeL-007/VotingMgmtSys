@@ -33,29 +33,55 @@
                 
                             <div class="form-group">
                                 <div class="col-lg-4 pull-left inline">
-                                {{ Form::label('position_id','Position :', ['class' => 'control-label']) }}
+                                {{ Form::label('membership_no','Membership No. :', ['class' => 'control-label']) }}
                                 </div>
                                 <div class="col-lg-10 pull-right ">
-                                  {{ Form::select('position_id', $positions, null, ['class' => 'form-control', 'placeholder' =>'Pick a position...', 'required']) }}
-                                    @if ($errors->has('position_id')) <p class="help-block" style="color:red;">{{ $errors->first('position_id') }}</p> @endif
+                                  {{ Form::text('membership_no', NULL, ['class' => 'form-control', 'placeholder' =>'Enter membership no']) }}
+                                    @if ($errors->has('membership_no')) <p class="help-block" style="color:red;">{{ $errors->first('membership_no') }}</p> @endif
                 
                                 </div>
                                 <!--col-lg-10-->
                             </div>
                             <!--form control-->
 
-                            <div class="form-group">
-                              <div class="col-lg-4 pull-left inline">
-                              {{ Form::label('name','candidate :', ['class' => 'control-label']) }}
-                              </div>
-                              <div class="col-lg-10 pull-right ">
-                                  {{ Form::text('name', NULL, ['class' => 'form-control', 'placeholder' =>'Enter the candidate']) }}
-                                  @if ($errors->has('name')) <p class="help-block" style="color:red;">{{ $errors->first('name') }}</p> @endif
-              
-                              </div>
-                              <!--col-lg-10-->
+                          <div class="form-group">
+                            {{ Form::label('type','Candidate Type: ', ['class' => 'control-label']) }}
+            
+                            <div class="col-lg-10  @if($errors->has('type')) has-error @endif ">
+                                {{ Form::select('type', ['institutional' => 'Institutional', 'individual' => 'Individual'], null, ['class' => 'form-control', 'placeholder' =>'Pick a type of candidate...', 'required']) }}
+                                @if ($errors->has('type')) <p class="help-block">{{ $errors->first('type') }}</p> @endif
+            
+                            </div>
+                            <!--col-lg-10-->
                           </div>
                           <!--form control-->
+
+                          <div class="form-group">
+                            <div class="col-lg-4 pull-left inline">
+                            {{ Form::label('name','candidate Name :', ['class' => 'control-label']) }}
+                            </div>
+                            <div class="col-lg-10 pull-right ">
+                                {{ Form::text('name', NULL, ['class' => 'form-control', 'placeholder' =>'Enter the candidate']) }}
+                                @if ($errors->has('name')) <p class="help-block" style="color:red;">{{ $errors->first('name') }}</p> @endif
+            
+                            </div>
+                            <!--col-lg-10-->
+                          </div>
+                          <!--form control-->
+
+                          <div class="form-group">
+                            {{ Form::label('type','Candidates Photo: ', ['class' => 'control-label']) }}
+            
+                            <div class="col-lg-10  @if($errors->has('type')) has-error @endif ">
+                              {{Form::file('image')}}
+                              
+                              @if ($errors->has('type')) <p class="help-block">{{ $errors->first('type') }}</p> @endif
+            
+                            </div>
+                            <!--col-lg-10-->
+                          </div>
+                          <!--form control-->
+                          
                         </div>
                         <div class="box box-info">
                             <div class="box-body">
@@ -75,7 +101,7 @@
                                 <!--pull-right-->
                 
                                 <div class="clearfix"></div>
-                                {!! Form::close() !!}
+                               
                             </div>
                         </div>
                     </div>
@@ -107,8 +133,10 @@
                           <thead>
                               <tr>
                                   <th>SN</th>
-                                  <th>Position</th>
+                                  <th>Membership No</th>
                                   <th>Candidate</th>
+                                  <th>Type</th>
+                                  <th>Photo</th>
                                   <th>Action</th>
                               </tr>
                           </thead>
@@ -117,8 +145,10 @@
                               @foreach($data as $field)
                               <tr>
                                   <td>{!! $loop->index + 1 !!}</td>
-                                  <td>{!! $field->positions->name !!}</td>
+                                  <td>{!! $field->membership_no !!}</td>
                                   <td>{!! $field->name !!}</td>
+                                  <td>{!! $field->type !!}</td>
+                                  <td>{!! $field->image !!}</td>
                                   <td class="col-md-1">
                                     
                                       {!! link_to_route('candidate.edit', '||', array($field->id), 

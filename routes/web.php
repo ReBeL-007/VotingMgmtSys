@@ -10,10 +10,18 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
+
+Route::get('/', function () {
+    return view('welcome');
+})->name('home');
+
 Route::group(['namespace' => 'User'], function(){
 
-    Route::get('/','PagesController@index');
-    Route::get('org/vote/{id}','PagesController@castvoteorgn');
+    // Route::get('/ballot','PagesController@index');
+    // Route::get('org/vote/{id}','PagesController@castvoteorgn');
+    Route::post('individual/vote','PagesController@castIndividualVote')->name('user.castIndividualVote');
+    Route::post('user/check','PagesController@checkAccessForIndividualVoting')->name('user.check');
+
 });
 
 
@@ -32,17 +40,24 @@ Route::group(['namespace'=>'Admin'], function(){
     Route::get('admin/candidate/{candidate}/delete' , 'CandidateController@destroy')->name('candidate.destroy');
     Route::patch('admin/candidate/{candidate}' , 'CandidateController@update')->name('candidate.update');
     
-    Route::get('admin/position' , 'PositionController@index')->name('position.index');
-    Route::get('admin/position/create' , 'PositionController@create')->name('position.create');
-    Route::post('admin/position/store' , 'PositionController@store')->name('position.store');
-    Route::get('admin/position/{position}/edit' , 'PositionController@edit')->name('position.edit');
-    Route::get('admin/position/{position}/delete' , 'PositionController@destroy')->name('position.destroy');
-    Route::patch('admin/position/{position}' , 'PositionController@update')->name('position.update');
+    Route::get('admin/voterslist' , 'VotersListController@index')->name('voterslist.index');
+    Route::get('admin/voterslist/create' , 'VotersListController@create')->name('voterslist.create');
+    Route::post('admin/voterslist/store' , 'VotersListController@store')->name('voterslist.store');
+    Route::get('admin/voterslist/{id}/edit' , 'VotersListController@edit')->name('voterslist.edit');
+    Route::get('admin/voterslist/{id}/delete' , 'VotersListController@destroy')->name('voterslist.destroy');
+    Route::patch('admin/voterslist/{id}' , 'VotersListController@update')->name('voterslist.update');
+    
+    // Route::get('admin/position' , 'PositionController@index')->name('position.index');
+    // Route::get('admin/position/create' , 'PositionController@create')->name('position.create');
+    // Route::post('admin/position/store' , 'PositionController@store')->name('position.store');
+    // Route::get('admin/position/{position}/edit' , 'PositionController@edit')->name('position.edit');
+    // Route::get('admin/position/{position}/delete' , 'PositionController@destroy')->name('position.destroy');
+    // Route::patch('admin/position/{position}' , 'PositionController@update')->name('position.update');
 
-    Route::get('admin/organization' , 'OrganizationController@index')->name('organization.index');
-    Route::get('admin/organization/create' , 'OrganizationController@create')->name('organization.create');
-    Route::post('admin/organization/store' , 'OrganizationController@store')->name('organization.store');
-    Route::get('admin/organization/{organization}/edit' , 'OrganizationController@edit')->name('organization.edit');
-    Route::get('admin/organization/{organization}/delete' , 'OrganizationController@destroy')->name('organization.destroy');
-    Route::patch('admin/organization/{organization}' , 'OrganizationController@update')->name('organization.update');
+    // Route::get('admin/organization' , 'OrganizationController@index')->name('organization.index');
+    // Route::get('admin/organization/create' , 'OrganizationController@create')->name('organization.create');
+    // Route::post('admin/organization/store' , 'OrganizationController@store')->name('organization.store');
+    // Route::get('admin/organization/{organization}/edit' , 'OrganizationController@edit')->name('organization.edit');
+    // Route::get('admin/organization/{organization}/delete' , 'OrganizationController@destroy')->name('organization.destroy');
+    // Route::patch('admin/organization/{organization}' , 'OrganizationController@update')->name('organization.update');
 });

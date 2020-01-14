@@ -14,10 +14,11 @@ class CreateCandidatesTable extends Migration
     public function up()
     {
         Schema::create('candidates', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->increments('id')->index();
             $table->string('name');
-            $table->unsignedInteger('position_id')->index();
-            $table->foreign('position_id')->references('id')->on('positions')->onDelete('cascade');
+            $table->string('membership_no')->unique();
+            $table->string('type');
+            $table->string('image')->nullable();
             $table->integer('cvotes')->nullable();
             $table->timestamps();
         });

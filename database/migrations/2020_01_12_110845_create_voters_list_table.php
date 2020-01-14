@@ -17,6 +17,7 @@ class CreateVotersListTable extends Migration
             $table->increments('id')->index();
             $table->string('membership_no')->unique();
             $table->string('name');
+            $table->string('type');
             $table->string('image')->nullable();
             $table->timestamps();
         });

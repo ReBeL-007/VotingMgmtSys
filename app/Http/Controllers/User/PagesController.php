@@ -37,7 +37,7 @@ class PagesController extends Controller
     //     $org->update($data);
     // }
 
-    public function castIndividualVote(Request $request){
+    public function castVote(Request $request){
         // dd($request->all());
         $memberships = $request->membership_no;
         foreach($memberships as $membership){
@@ -51,7 +51,14 @@ class PagesController extends Controller
         }
         Session::flash('flash_success', 'Congratulation... You have successfully voted!.');
         Session::flash('flash_type', 'alert-success');
-        return redirect()->route('home');
+        if($request->type == "individual"){
+
+            return redirect()->route('home-individual');
+        }
+        elseif($request->type == "institutional"){
+            return redirect()->route('home-institutional');
+
+        }
     }
     
     public function checkAccessForIndividualVoting(Request $request){
@@ -64,6 +71,8 @@ class PagesController extends Controller
         // dd($member->candidates);
         
             if($member){
+                if($member->type == "individual"){
+
                     foreach($member->candidates as $candidate){
                         Session::flash('flash_danger', 'Sorry... You have already voted!.');
                         Session::flash('flash_type', 'alert-danger');
@@ -72,9 +81,52 @@ class PagesController extends Controller
                 $individual_candidates = $this->candidate->where('type','individual')->get();
                 $voter_id = $member->id;
                 return view('frontend.index', compact('individual_candidates','voter_id'));
+                }
+
+                else{
+                    Session::flash('flash_danger', 'Sorry... You cannot vote for individual member!.');
+                    Session::flash('flash_type', 'alert-danger');
+                    return redirect()->back();
+                }
             }
             else{
-                Session::flash('flash_danger', 'Sorry... You are not registered as member!.');
+                Session::flash('flash_danger', 'Sorry... You are not registered as member yet!.');
+                Session::flash('flash_type', 'alert-danger');
+                return redirect()->back();
+            }
+        }
+
+    public function checkAccessForInstitutionalVoting(Request $request){
+        // dd($request->membership_no);
+        // $this->validate($request,[            
+        //     'membership_no' => 'required',
+        // ]);
+        $membership_no = $request->membership_no;
+        $member = $this->voterlist->with('candidates')->where('membership_no',$membership_no)->first();
+        // dd($member->candidates);
+        
+            if($member){
+                if($member->type == "institutional"){
+
+                    foreach($member->candidates as $candidate){
+                        Session::flash('flash_danger', 'Sorry... You have already voted!.');
+                        Session::flash('flash_type', 'alert-danger');
+                        return redirect()->back();
+                    }
+                $institutional_candidates = $this->candidate->where('type','institutional')->get();
+                $voter_id = $member->id;
+                // dd($institutional_candidates);
+                return view('frontend.index', compact('institutional_candidates','voter_id'));
+                }
+
+                else{
+                    Session::flash('flash_danger', 'Sorry... You cannot vote for institutional member!.');
+                    Session::flash('flash_type', 'alert-danger');
+                    return redirect()->back();
+                }
+            }
+            else{
+                Session::flash('flash_danger', 'Sorry... You are not registered as member yet!.');
                 Session::flash('flash_type', 'alert-danger');
                 return redirect()->back();
             }

@@ -32,6 +32,18 @@
                         <div class="box-body">
                 
                             <div class="form-group">
+                              {{ Form::label('type','Voter Type: ', ['class' => 'control-label']) }}
+              
+                              <div class="col-lg-10  @if($errors->has('type')) has-error @endif ">
+                                  {{ Form::select('type', ['institutional' => 'Institutional', 'individual' => 'Individual'], null, ['class' => 'form-control', 'placeholder' =>'Pick a type of candidate...', 'required']) }}
+                                  @if ($errors->has('type')) <p class="help-block">{{ $errors->first('type') }}</p> @endif
+              
+                              </div>
+                              <!--col-lg-10-->
+                            </div>
+                            <!--form control-->
+
+                            <div class="form-group">
                                 <div class="col-lg-4 pull-left inline">
                                 {{ Form::label('membership_no','Membership No. :', ['class' => 'control-label']) }}
                                 </div>
@@ -107,9 +119,10 @@
                           <thead>
                               <tr>
                                   <th>SN</th>
+                                  <th>Voter Type</th>
                                   <th>Membership No</th>
                                   <th>Voters Name</th>
-                                  <th>img</th>
+                                  {{-- <th>img</th> --}}
                                   <th>Action</th>
                               </tr>
                           </thead>
@@ -118,9 +131,10 @@
                               @foreach($data as $field)
                               <tr>
                                   <td>{!! $loop->index + 1 !!}</td>
+                                  <td>{!! $field->type !!}</td>
                                   <td>{!! $field->membership_no !!}</td>
                                   <td>{!! $field->name !!}</td>
-                                  <td>{!! $field->img !!}</td>
+                                  {{-- <td>{!! $field->img !!}</td> --}}
                                   <td class="col-md-1">
                                     
                                       {!! link_to_route('voterslist.edit', '||', array($field->id), 

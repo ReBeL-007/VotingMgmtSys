@@ -48,3 +48,12 @@
 <script src="{{ asset('public/backend/dist/js/pages/dashboard.js')}}"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="{{ asset('public/backend/dist/js/demo.js')}}"></script>
+
+<script>
+  $(document).ready(function(){
+      setTimeout(function(){
+         $(".alert").remove();
+      }, 5000 ); // 5 secs
+  
+  });
+  </script>

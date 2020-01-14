@@ -54,6 +54,7 @@ class VotersListController extends Controller
         $this->validate($request,[
             'name' => 'required',
             'membership_no' => 'required|unique:voters_list',
+            'type' => 'required',
             // 'img' => 'required',
         ]);
 
@@ -72,6 +73,7 @@ class VotersListController extends Controller
         $data = [
                     'name' => $request->name,
                     'membership_no' => $request->membership_no,
+                    'type' => $request->type,
                     // 'image' => $image,
                 ];
         $latest=$this->model->create($data);
@@ -122,12 +124,14 @@ class VotersListController extends Controller
         $this->validate($request,[
             'name' => 'required',
             'membership_no' => 'required',
+            'type' => 'required',
             // 'img' => 'required',
         ]);
 
         $data = [
                     'name' => $request->name,
                     'membership_no' => $request->membership_no,
+                    'type' => $request->type,
                     // 'img' => $request->img,
                 ];
         $this->model->find($id)->update($data);

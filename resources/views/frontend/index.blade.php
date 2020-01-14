@@ -78,8 +78,10 @@
       
       @if(isset ($institutional_candidates))
       <div class="content">
-        <form class="form-horizontal" action="individual/vote">
+        <form class="form-horizontal" action="{{ route('user.castVote')}}" method="post">
+          {{ csrf_field() }}
           <input type="hidden" name="type" value="institutional">
+          <input type="hidden" name="voter_id" value="{{$voter_id}}">
 
         <div class="page-header">
           <div class="row">
@@ -91,9 +93,10 @@
             @foreach ($institutional_candidates as $candidate)
               <label class="labelHover answer" style="width:600px; border:1px solid #ddd; color:rgb(68, 68, 68); border-radius:4px; cursor:pointer; font-size: 25px; font-weight:400; margin: 5px;"> 
                 <div class="icheck-success inline">
-                  <input type="checkbox" name="membership_no" value="{{$candidate->membership_no}}" id="checkboxSuccess3">
+                  <input type="checkbox" name="membership_no[]" value="{{$candidate->membership_no}}" id="checkboxSuccess3">
                   <label for="checkboxSuccess3">
                   </label>
+                  <img src="{{ asset('public/images/candidates/'.$candidate->image)}}" class="user-image" height="62" width="62" alt="image">&nbsp; &nbsp; &nbsp;
                   {{$candidate->name}}
                 </div>
               </label>
@@ -109,7 +112,7 @@
       
       @if(isset ($individual_candidates))
       <div class="content">
-        <form class="form-horizontal" action="{{ route('user.castIndividualVote')}}" method="post">
+        <form class="form-horizontal" action="{{ route('user.castVote')}}" method="post">
           {{ csrf_field() }}
 
           <input type="hidden" name="type" value="individual">
@@ -128,6 +131,7 @@
                   <input type="checkbox" name="membership_no[]" value="{{$candidate->membership_no}}" id="checkboxSuccess3">
                   <label for="checkboxSuccess3">
                   </label>
+                  <img src="{{ asset('public/images/candidates/'.$candidate->image)}}" class="user-image" height="62" width="62" alt="image">&nbsp; &nbsp; &nbsp;
                   {{$candidate->name}}
                 </div>
               </label>

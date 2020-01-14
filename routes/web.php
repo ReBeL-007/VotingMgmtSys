@@ -12,15 +12,20 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
-})->name('home');
+    return view('access_form.individual');
+})->name('home-individual');
+
+Route::get('/institutional', function () {
+    return view('access_form.institutional');
+})->name('home-institutional');
 
 Route::group(['namespace' => 'User'], function(){
 
     // Route::get('/ballot','PagesController@index');
     // Route::get('org/vote/{id}','PagesController@castvoteorgn');
-    Route::post('individual/vote','PagesController@castIndividualVote')->name('user.castIndividualVote');
-    Route::post('user/check','PagesController@checkAccessForIndividualVoting')->name('user.check');
+    Route::post('castvote','PagesController@castVote')->name('user.castVote');
+    Route::post('user/check-individual','PagesController@checkAccessForIndividualVoting')->name('user.check.individual');
+    Route::post('user/check-institutional','PagesController@checkAccessForInstitutionalVoting')->name('user.check.institutional');
 
 });
 

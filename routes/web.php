@@ -44,6 +44,8 @@ Route::group(['namespace'=>'Admin'], function(){
     Route::get('admin/candidate/{candidate}/edit' , 'CandidateController@edit')->name('candidate.edit');
     Route::get('admin/candidate/{candidate}/delete' , 'CandidateController@destroy')->name('candidate.destroy');
     Route::patch('admin/candidate/{candidate}' , 'CandidateController@update')->name('candidate.update');
+    Route::post('admin/candidate/import' , 'CandidateController@import')->name('candidate.import');
+    Route::get('admin/candidate/import-export' , 'CandidateController@importExport')->name('candidate.import-export');
     
     Route::get('admin/voterslist' , 'VotersListController@index')->name('voterslist.index');
     Route::get('admin/voterslist/create' , 'VotersListController@create')->name('voterslist.create');
@@ -51,6 +53,9 @@ Route::group(['namespace'=>'Admin'], function(){
     Route::get('admin/voterslist/{id}/edit' , 'VotersListController@edit')->name('voterslist.edit');
     Route::get('admin/voterslist/{id}/delete' , 'VotersListController@destroy')->name('voterslist.destroy');
     Route::patch('admin/voterslist/{id}' , 'VotersListController@update')->name('voterslist.update');
+    Route::post('admin/voterslist/import' , 'VotersListController@import')->name('voterslist.import');
+    Route::get('admin/voterslist/import-export' , 'VotersListController@importExport')->name('voterslist.import-export');
+
     
     // Route::get('admin/position' , 'PositionController@index')->name('position.index');
     // Route::get('admin/position/create' , 'PositionController@create')->name('position.create');

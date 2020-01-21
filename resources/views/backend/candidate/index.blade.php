@@ -30,7 +30,19 @@
                     <div class="box box-primary">
                         
                         <div class="box-body">
-                
+      
+                          <div class="form-group">
+                            {{ Form::label('type','Candidate Type: ', ['class' => 'control-label']) }}
+            
+                            <div class="col-lg-10  @if($errors->has('type')) has-error @endif ">
+                                {{ Form::select('type', ['institutional' => 'Institutional', 'individual' => 'Individual'], null, ['class' => 'form-control', 'placeholder' =>'Pick a type of candidate...', 'required']) }}
+                                @if ($errors->has('type')) <p class="help-block">{{ $errors->first('type') }}</p> @endif
+            
+                            </div>
+                            <!--col-lg-10-->
+                          </div>
+                          <!--form control-->
+
                             <div class="form-group">
                                 <div class="col-lg-4 pull-left inline">
                                 {{ Form::label('membership_no','Membership No. :', ['class' => 'control-label']) }}
@@ -43,18 +55,6 @@
                                 <!--col-lg-10-->
                             </div>
                             <!--form control-->
-
-                          <div class="form-group">
-                            {{ Form::label('type','Candidate Type: ', ['class' => 'control-label']) }}
-            
-                            <div class="col-lg-10  @if($errors->has('type')) has-error @endif ">
-                                {{ Form::select('type', ['institutional' => 'Institutional', 'individual' => 'Individual'], null, ['class' => 'form-control', 'placeholder' =>'Pick a type of candidate...', 'required']) }}
-                                @if ($errors->has('type')) <p class="help-block">{{ $errors->first('type') }}</p> @endif
-            
-                            </div>
-                            <!--col-lg-10-->
-                          </div>
-                          <!--form control-->
 
                           <div class="form-group">
                             <div class="col-lg-4 pull-left inline">
@@ -129,7 +129,7 @@
               <div class="card-body">
                 <div class="box-body">
                   <div class="table-responsive">
-                      <table id="users-table" class="table table-condensed table-hover">
+                      <table id="users-table" class="table table-condensed table-hover" style="width:fit-content">
                           <thead>
                               <tr>
                                   <th>SN</th>

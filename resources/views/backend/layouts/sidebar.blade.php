@@ -63,6 +63,23 @@
           </a>
         </li>
         
+        <li class="nav-item">
+          <a href="{{route('voterslist.import-export')}}" class="nav-link">
+            <i class="nav-icon far fa-image"></i>
+            <p>
+              Import Voters List
+            </p>
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a href="{{route('candidate.import-export')}}" class="nav-link">
+            <i class="nav-icon far fa-image"></i>
+            <p>
+              Import Candidates
+            </p>
+          </a>
+        </li>
       </ul>
     </nav>
     <!-- /.sidebar-menu -->

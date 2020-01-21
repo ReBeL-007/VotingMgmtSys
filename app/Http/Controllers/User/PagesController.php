@@ -39,6 +39,21 @@ class PagesController extends Controller
 
     public function castVote(Request $request){
         // dd($request->all());
+        $voter = $this->voterlist->with('candidates')->where('id',$request->voter_id)->first();
+        // dd($voter->candidates);
+        foreach($voter->candidates as $v){
+            // dd($v);
+            Session::flash('flash_danger', 'Sorry... You have already voted!.');
+            Session::flash('flash_type', 'alert-danger');
+            if($request->type == "individual"){
+
+                return redirect()->route('home-individual');
+            }
+            elseif($request->type == "institutional"){
+                return redirect()->route('home-institutional');
+    
+            }
+        }
         $memberships = $request->membership_no;
         foreach($memberships as $membership){
             // dd($membership);

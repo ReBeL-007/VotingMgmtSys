@@ -7,6 +7,8 @@ use App\Model\Voting\Candidate;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Session;
+use App\Imports\ImportCandidates;
+use Maatwebsite\Excel\Facades\Excel;
 
 class CandidateController extends Controller
 {
@@ -162,5 +164,17 @@ class CandidateController extends Controller
         Session::flash('flash_danger', 'candidate has been deleted!.');
         Session::flash('flash_type', 'alert-danger');
         return redirect()->route('candidate.index');
+    }
+
+    public function importExport()
+    {
+       return view('backend.candidate.import');
+    }
+
+    public function import() 
+    {
+        Excel::import(new ImportCandidates, request()->file('file'));
+            
+        return back();
     }
 }

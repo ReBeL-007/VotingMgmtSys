@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Model\Voting\VoterList;
 use Session;
+use App\Imports\ImportVoters;
+use Maatwebsite\Excel\Facades\Excel;
 
 class VotersListController extends Controller
 {
@@ -154,5 +156,17 @@ class VotersListController extends Controller
         Session::flash('flash_danger', 'voters has been deleted!.');
         Session::flash('flash_type', 'alert-danger');
         return redirect()->route('voterslist.index');
+    }
+
+    public function importExport()
+    {
+       return view('backend.voterslist.import');
+    }
+
+    public function import() 
+    {
+        Excel::import(new ImportVoters, request()->file('file'));
+            
+        return back();
     }
 }

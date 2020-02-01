@@ -3,7 +3,7 @@
 @section('content')
 <div class="login-box" style="width:fit-content;">
   <div class="login-logo">
-    <h2>Management Association of Nepal</h2>
+    <h2 style="color:#131c6b;">Management Association of Nepal</h2>
   </div>
   <div>
     @include('backend.includes.messages')

@@ -19,7 +19,7 @@ class CreateCandidatesTable extends Migration
             $table->string('membership_no')->unique();
             $table->string('type');
             $table->string('image')->nullable();
-            $table->integer('cvotes')->nullable();
+            $table->integer('cvotes')->default(0);
             $table->timestamps();
         });
 

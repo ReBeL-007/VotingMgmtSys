@@ -74,7 +74,7 @@
             
                             <div class="col-lg-10  @if($errors->has('type')) has-error @endif ">
                               {{Form::file('image')}}
-                              
+                              <span> {{isset($model)?$model->image:''}} </span>
                               @if ($errors->has('type')) <p class="help-block">{{ $errors->first('type') }}</p> @endif
             
                             </div>

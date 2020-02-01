@@ -112,7 +112,7 @@ class PagesController extends Controller
         }
 
     public function checkAccessForInstitutionalVoting(Request $request){
-        // dd($request->membership_no);
+        // dd($request);
         // $this->validate($request,[            
         //     'membership_no' => 'required',
         // ]);

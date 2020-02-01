@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Session;
 use App\Imports\ImportCandidates;
 use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Support\Facades\File;
 
 class CandidateController extends Controller
 {
@@ -63,8 +64,8 @@ class CandidateController extends Controller
         ]);
 
         if($request->hasFile('image')){
-                $file = $request->file('image');
-                $file_name= uniqid().'_'.$file->getClientOriginalName();
+            $file = $request->file('image');
+            $file_name= uniqid().'_'.$file->getClientOriginalName();
                 // $imageName= $request->image->store('public/image');
                 $file->move(public_path().'/images/candidates/', $file_name);
                 // $image->move(public_path().'/images/', $name); 
@@ -115,7 +116,7 @@ class CandidateController extends Controller
         $model = $this->model->find($candidate->id);
         $data = $this->model->paginate(10);
         // $positions = $this->position->pluck('name','id');
-            
+            // dd($model);
         return view('backend.candidate.index',compact('model','data'));
     
     }
@@ -138,14 +139,43 @@ class CandidateController extends Controller
             // 'img' => 'required',
         ]);
 
+        $candidate = $this->model->find($candidate->id);
+        if($request->hasFile('image')){
+            
+        $dir = public_path().'/images/candidates/';
+        if ($candidate->image != '' && File::exists($dir. $candidate->image));
+             {
+                 File::delete($dir . $candidate->image);
+             }
+            $file = $request->file('image');
+            $file_name= uniqid().'_'.$file->getClientOriginalName();
+                // $imageName= $request->image->store('public/image');
+                $file->move($dir, $file_name);
+                // $image->move(public_path().'/images/', $name); 
+                // $request->request->add(['image'=>$file_name]) ;
+                $image = $file_name;
+                // dd($request->all());
+        }
+        // elseif ($request->remove == 1 && File::exists(public_path().'/images/candidates/' . $candidate->image)) {
+        //     File::delete('uploads/' . $image->post_image);
+        //     $image = null;
+        // }
+        elseif(isset($candidate->image)){
+            // dd($candidate->image);
+            $image = $candidate->image;
+        }
+        else{
+            $image = null;
+        }
+
         $data = [
                     'name' => $request->name,
                     'membership_no' => $request->membership_no,
                     'type' => $request->type,
-                    // 'img' => $request->img,
+                    'image' => $image,
                 ];
 
-        $this->model->find($candidate->id)->update($data);
+        $candidate->update($data);
         Session::flash('flash_success', 'candidate updated successfully!.');
         Session::flash('flash_type', 'alert-success');
         return redirect()->route('candidate.index');

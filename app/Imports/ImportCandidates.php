@@ -16,8 +16,8 @@ class ImportCandidates implements ToModel
     {
         return new Candidate([
             //
-            'name'     => @$row[0],
-            'membership_no'    => @$row[1], 
+            'name'     => @$row[1],
+            'membership_no'    => @$row[0], 
             'type'    => @$row[2]
         ]);
     }

@@ -135,7 +135,7 @@
                   <input type="checkbox" name="membership_no[]" value="{{$candidate->membership_no}}" id="{{$candidate->id}}" />
                   <label for="{{$candidate->id}}">
                   </label>
-                  <img src="{{ asset('public/images/candidates/'.$candidate->image)}}" class="user-image" height="62" width="62" alt="image">&nbsp; &nbsp; &nbsp;
+                  <img src="{{ asset('public/images/candidates/'.$candidate->image)}}" class="user-image" height="100" width="100" alt="image">&nbsp; &nbsp; &nbsp;
                   {{$candidate->name}}
                 </div>
               </label>

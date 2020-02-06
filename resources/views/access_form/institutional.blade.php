@@ -2,8 +2,11 @@
 
 @section('content')
 <div class="login-box" style="width:fit-content;">
-  <div class="login-logo">
-    <h2 style="color:#131c6b;">Management Association of Nepal</h2>
+  <div class="login-logo row">
+    <div class="col-md-3" id="container"><img src="{{ asset('public/images/logo.png')}}" width="150" height="150" class="center" alt="image"></div>
+    <div class="col-md-9" style="color:#131c6b;"><h1>Management Association of Nepal</h1>
+    <p style="font-size:26px;">19th Executive Committee Election Program - 2020</p>
+    </div>
   </div>
   <div>
     @include('backend.includes.messages')
@@ -17,7 +20,13 @@
 
   <form action="{{ route('user.check.institutional')}}" method="post">
         {{ csrf_field() }}
-        
+        {{--<div class="form-group">
+          <select name="type">
+            <option value='institutional'>Institutional Member</option>
+            <option value='life member'>life Member</option>
+            <option value='general member'>general Member</option>
+          </select>
+        </div>--}}
       <div class="form-group has-feedback">
         <input type="text" class="form-control" name="membership_no" placeholder="Membership No.">
       </div>

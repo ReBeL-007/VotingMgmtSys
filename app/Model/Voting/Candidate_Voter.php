@@ -8,4 +8,5 @@ class Candidate_Voter extends Model
 {
     //
     protected $table= 'candidate_voters';
+    protected $guarded = [];
 }

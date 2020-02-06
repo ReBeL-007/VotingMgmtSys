@@ -22,13 +22,15 @@
       }
       body {
           
-        padding-top: 40px; /* 40px to make the container go all the way to the bottom of the topbar */
+        /* padding-top: 20px; 40px to make the container go all the way to the bottom of the topbar */
       }
       .container > footer p {
         text-align: center; /* center align it with the container */
       }
       .container {
-        width: 640px; /* downsize our container to make the content feel a bit tighter and more cohesive. NOTE: this removes two full columns from the grid, meaning you only go to 14 columns and not 16. */
+        padding: 10px;
+        margin: 0px 20px;
+        width: fit-content; /* downsize our container to make the content feel a bit tighter and more cohesive. NOTE: this removes two full columns from the grid, meaning you only go to 14 columns and not 16. */
       }
       /* The white background content wrapper */
       .content {
@@ -56,6 +58,7 @@
       .content .span10,
       .content .span4 {
         min-height: 300px;
+        
       }
       /* Give a quick and non-cross-browser friendly divider */
       .content .span4 {
@@ -69,8 +72,19 @@
       .center {
         display: block;
         margin-left: auto;
-        margin-right: auto;
-        /* width: 50%; */
+        margin-right: auto; 
+        width: 50%;
+        /* height:fit-content; */
+      }
+      .center2 {
+        display: block;
+        margin-left: auto;
+        margin-right: auto; 
+        /* align-self: center; */
+      }
+      #container img {
+        width: 100%;
+        object-fit: contain;
       }
     </style>
 <script>
@@ -108,41 +122,46 @@
   </head>
 
   <body>
-    <div class="container">
+    <div class="col-md-12 container">
       <div class="row">
-        <img src="{{ asset('public/images/logo.png')}}" class="center" alt="image">
-        <h1 style="color:#131c6b;">Management Association of Nepal</h1>
-        <p style="color:#131c6b; font-size:28px;">19th Executive Committee Election Program - 2020</p>
+        <div class="col-md-3">
+        <img src="{{ asset('public/images/logo.png')}}" height="120" width="120" alt="logo">
+        </div>
+        <div class="col-md-9" style="color:#131c6b;">
+        <h2>Management Association of Nepal</h2>
+        <p style="font-size:22px;">19th Executive Committee Election Program - 2020</p>
+        </div>
       </div>
       
       @if(isset ($institutional_candidates))
       <div class="content">
         <form class="form-horizontal" action="{{ route('user.castVote')}}" method="post" id="form_name">
           {{ csrf_field() }}
-          <input type="hidden" name="type" id="type" value="institutional">
+          <input type="hidden" name="type" id="type" value="institutional"> {{-- check --}}
           <input type="hidden" name="voter_id" value="{{$voter_id}}">
-
+         {{-- <input type="hidden" name="voter_type" value="{{$voter_type}}">  update --}}
         <div class="page-header">
           <div class="row">
-          <h3 style="font-family:open sans"><b>Institutional Candidates</b></h3>
-        </div>
+          <h5 style="font-family:open sans"><b>Institutional Candidates</b></h5>
+          </div>
         </div>
         <div class="form-group">
-          <div class="span10 ">
+          <div class="span10 row">
             @foreach ($institutional_candidates as $candidate)
-              <label class="labelHover answer" style="width:600px; border:1px solid #ddd; color:rgb(68, 68, 68); border-radius:4px; cursor:pointer; font-size: 25px; font-weight:400; margin: 5px;"> 
-                <div class="icheck-success inline">
+            <div class="col-md-4">
+              <label class="labelHover answer" style="width:inherit; border:1px solid #ddd; color:rgb(68, 68, 68); border-radius:4px; cursor:pointer; font-size: 20px; font-weight:400; margin: 5px;"> 
+                <div class="icheck-success row inline" style="width:inherit; margin-left:10px;">
                   <input type="checkbox" name="membership_no[]" value="{{$candidate->membership_no}}" id="{{$candidate->id}}" />
                   <label for="{{$candidate->id}}">
                   </label>
-                  <img src="{{ asset('public/images/candidates/'.$candidate->image)}}" class="user-image" height="100" width="100" alt="image">&nbsp; &nbsp; &nbsp;
-                  {{$candidate->name}}
+                  <div class="col-md-3 row" id="container"><img src="{{ asset('public/images/candidates/'.$candidate->image)}}" class="user-image" height="90" width="90" alt="image"></div>
+                  <div class="col-md-8 row" style="text-align:center">{{$candidate->name}}</div>
                 </div>
               </label>
+            </div>
             @endforeach
             </div>
         </div>
-        <div class="clear"></div>
         
         <button type="submit" class="btn btn-block btn-success" onclick="return confirm('Are you sure?')">Ok</button>
         </form>
@@ -157,28 +176,30 @@
 
           <input type="hidden" name="type" id="type" value="individual">
           <input type="hidden" name="voter_id" value="{{$voter_id}}">
-
+          {{-- <input type="hidden" name="voter_type" value="{{$voter_type}}">  update --}}
+          
         <div class="page-header">
           <div class="row">
-          <h3 style="font-family:open sans"><b>Individual Candidates</b></h3>
+          <h5 style="font-family:open sans"><b>Individual Candidates</b></h5>
         </div>
         </div>
         <div class="form-group">
-          <div class="span10 ">
+          <div class="span10 row">
             @foreach ($individual_candidates as $candidate)
-              <label class="labelHover answer" style="width:600px; border:1px solid #ddd; color:rgb(68, 68, 68); border-radius:4px; cursor:pointer; font-size: 25px; font-weight:400; margin: 5px;"> 
-                <div class="icheck-success inline">
+            <div class="col-md-4">
+              <label class="labelHover answer" style="width:inherit; border:1px solid #ddd; color:rgb(68, 68, 68); border-radius:4px; cursor:pointer; font-size: 20px; font-weight:400; margin: 5px;"> 
+                <div class="icheck-success row inline" style="width:inherit; margin-left:10px;">
                   <input type="checkbox" name="membership_no[]" value="{{$candidate->membership_no}}" id="{{$candidate->id}}" />
                   <label for="{{$candidate->id}}">
                   </label>
-                  <img src="{{ asset('public/images/candidates/'.$candidate->image)}}" class="user-image" height="62" width="62" alt="image">&nbsp; &nbsp; &nbsp;
-                  {{$candidate->name}}
+                  <div class="col-md-3 row" id="container"><img src="{{ asset('public/images/candidates/'.$candidate->image)}}" class="user-image" height="90" width="90" alt="image"></div>
+                  <div class="col-md-8 row">{{$candidate->name}}</div>
                 </div>
               </label>
+            </div>
             @endforeach
             </div>
         </div>
-        <div class="clear"></div>
         
         <button type="submit" class="btn btn-block btn-success" onclick="return confirm('Are you sure?')">Ok</button>
         </form>

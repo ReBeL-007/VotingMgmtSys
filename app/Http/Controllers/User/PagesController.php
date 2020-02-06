@@ -40,6 +40,8 @@ class PagesController extends Controller
     public function castVote(Request $request){
         // dd($request->all());
         $voter = $this->voterlist->with('candidates')->where('id',$request->voter_id)->first();
+        // $voter = $this->voterlist->with('candidates')->where([['id',$request->voter_id],['type',$request->voter_type]])->first(); //update
+        // dd($voter);
         // dd($voter->candidates);
         foreach($voter->candidates as $v){
             // dd($v);
@@ -55,15 +57,20 @@ class PagesController extends Controller
             }
         }
         $memberships = $request->membership_no;
-        foreach($memberships as $membership){
-            // dd($membership);
-            $candidate = $this->candidate->where('membership_no',$membership)->first();
-            // dd($candidate->cvotes);
-            $data['cvotes'] = $candidate->cvotes + 1;
-            // dd($data['cvotes']);
-            $candidate->update($data);
-            $candidate->voters()->sync($request->voter_id);
+        if($memberships){
+            foreach($memberships as $membership){
+                // dd($membership);
+                $candidate = $this->candidate->where('membership_no',$membership)->first();
+                // dd($candidate->cvotes);
+                $data['cvotes'] = $candidate->cvotes + 1;
+                // dd($data['cvotes']);
+                $candidate->update($data);
+                $candidate->voters()->attach($voter->id, ['voter_type' => $voter->type]);
+                // $candidate->voters()->attach(['voter_type'=>$voter->type]); //update
+
+            }
         }
+                
         Session::flash('flash_success', 'Congratulation... You have successfully voted!.');
         Session::flash('flash_type', 'alert-success');
         if($request->type == "individual"){
@@ -83,11 +90,13 @@ class PagesController extends Controller
         // ]);
         $membership_no = $request->membership_no;
         $member = $this->voterlist->with('candidates')->where('membership_no',$membership_no)->first();
+        // $member = $this->voterlist->with('candidates')->where([ ['membership_no',$membership_no],['type',$request->type] ])->first(); //update
+
         // dd($member->candidates);
         
             if($member){
+                // if($member->type == "life member"||"general member"){ //update
                 if($member->type == "individual"){
-
                     foreach($member->candidates as $candidate){
                         Session::flash('flash_danger', 'Sorry... You have already voted!.');
                         Session::flash('flash_type', 'alert-danger');
@@ -95,6 +104,8 @@ class PagesController extends Controller
                     }
                 $individual_candidates = $this->candidate->where('type','individual')->get();
                 $voter_id = $member->id;
+
+                // $voter_type = $member->type; //update
                 return view('frontend.index', compact('individual_candidates','voter_id'));
                 }
 
@@ -118,6 +129,8 @@ class PagesController extends Controller
         // ]);
         $membership_no = $request->membership_no;
         $member = $this->voterlist->with('candidates')->where('membership_no',$membership_no)->first();
+        // $member = $this->voterlist->with('candidates')->where([['membership_no',$membership_no],['type',$request->type]])->first(); //update
+
         // dd($member->candidates);
         
             if($member){
@@ -130,6 +143,7 @@ class PagesController extends Controller
                     }
                 $institutional_candidates = $this->candidate->where('type','institutional')->get();
                 $voter_id = $member->id;
+                // $voter_type = $member->type; //update
                 // dd($institutional_candidates);
                 return view('frontend.index', compact('institutional_candidates','voter_id'));
                 }

@@ -14,6 +14,6 @@ class Candidate extends Model
     // }
 
     public function voters(){
-        return $this->belongsToMany(VoterList::class, 'candidate_voters','candidate_id','voter_id')->withTimestamps();
+        return $this->belongsToMany(VoterList::class, 'candidate_voters','candidate_id','voter_id')->withPivot('voter_type')->withTimestamps();
     }
 }
